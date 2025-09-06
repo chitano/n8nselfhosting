@@ -42,8 +42,14 @@ cd n8nselfhosting
 sudo usermod -aG docker your_user_name #if you install debian on AWS lightsail it will be "admin"
 
 ```
+### 4. Create a folder called "local-files"
 
-### 4. Pull images and run server.
+```bash
+mkdir local-files
+
+```
+
+### 5. Pull images and run server.
 ```bash
 docker compose pull
 docker compose up -d
