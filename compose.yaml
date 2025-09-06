@@ -1,0 +1,81 @@
+services:
+  traefik:
+    image: traefik
+    restart: always
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.web.http.redirections.entryPoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.mytlschallenge.acme.tlschallenge=true
+      - --certificatesresolvers.mytlschallenge.acme.email=${SSL_EMAIL}
+      - --certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json
+      - --api.insecure=true   # dashboard available only from inside the host unless you expose it
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - traefik_data:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    restart: always
+    depends_on:
+      - db
+    ports:
+      # bind UI only to localhost; Traefik serves it publicly
+      - "127.0.0.1:5678:5678"
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.n8n.rule=Host(`${SUBDOMAIN}.${DOMAIN_NAME}`)
+      - traefik.http.routers.n8n.entrypoints=web,websecure
+      - traefik.http.routers.n8n.tls=true
+      - traefik.http.routers.n8n.tls.certresolver=mytlschallenge
+    environment:
+      - NODE_ENV=production
+      - TZ=${GENERIC_TIMEZONE}
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+
+      # reverse proxy settings
+      - N8N_HOST=${SUBDOMAIN}.${DOMAIN_NAME}
+      - N8N_PROTOCOL=https
+      - N8N_PORT=5678
+      - WEBHOOK_URL=https://${SUBDOMAIN}.${DOMAIN_NAME}/
+      - N8N_PROXY_HOPS=1
+
+      # features & security
+      - N8N_RUNNERS_ENABLED=true
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+
+      # database
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=db
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=${POSTGRES_DB}
+      - DB_POSTGRESDB_USER=${POSTGRES_USER}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}
+
+      # (Optional) if you want to verify requests to your own webhook nodes:
+      # - N8N_WEBHOOK_SECRET=${N8N_WEBHOOK_SECRET}
+
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./local-files:/files
+
+volumes:
+  n8n_data:
+  pg_data:
+  traefik_data:
