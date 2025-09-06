@@ -27,18 +27,25 @@ sudo sh ./get-docker.sh --dry-run
 
 Now your will have docker installed in your debian server. 
 
+```
+
 ### 2. Clone this Repository
+
 ```bash
 git clone https://github.com/chitano/n8nselfhosting
 cd n8nselfhosting
 
+```
 
 ### 3. Change user group 
 ```bash
 sudo usermod -aG docker your_user_name #if you install debian on AWS lightsail it will be "admin"
 
+```
+
 ### 4. Pull images and run server.
 ```bash
 docker compose pull
 docker compose up -d
+
 
