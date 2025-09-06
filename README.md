@@ -9,7 +9,7 @@ It is designed for anyone who wants to quickly set up **n8n** for workflow autom
 
 Before starting, make sure you have:
 
-- A Debian 11/12 server 
+- A Ubuntu 24.04 LTS server 
 - Root or sudo access
 - A domain/subdomain (e.g. `n8n.example.com`) pointing to your server’s IP  
 - (Optional but recommended) An SSL certificate (e.g. via [Let's Encrypt](https://letsencrypt.org/))
@@ -25,9 +25,9 @@ Before starting, make sure you have:
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh ./get-docker.sh --dry-run
 
-Now your will have docker installed in your debian server. 
-
 ```
+
+Now you will have docker installed in your ubuntu server. 
 
 ### 2. Clone this Repository
 
@@ -39,7 +39,7 @@ cd n8nselfhosting
 
 ### 3. Change user group 
 ```bash
-sudo usermod -aG docker your_user_name #if you install debian on AWS lightsail it will be "admin"
+sudo usermod -aG docker your_user_name #if you install debian on AWS lightsail it will be "ubuntu"
 
 ```
 ### 4. Create a folder called "local-files"
