@@ -48,8 +48,9 @@ sudo usermod -aG docker your_user_name #if you install debian on AWS lightsail i
 mkdir local-files
 
 ```
+### 5. Change .env file for your domain 
 
-### 5. Pull images and run server.
+### 6. Pull images and run server.
 ```bash
 docker compose pull
 docker compose up -d
