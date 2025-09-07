@@ -1,4 +1,4 @@
-# 🚀 n8n Installation on Debian (Docker)
+# 🚀 n8n Installation on Ubuntu (Docker)
 
 This repository provides step-by-step instructions and configuration files to install **[n8n](https://n8n.io/)** on a Debian Linux server using Docker.  
 It is designed for anyone who wants to quickly set up **n8n** for workflow automation with minimal effort.
