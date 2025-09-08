@@ -18,16 +18,22 @@ Before starting, make sure you have:
 
 ## ⚙️ Installation Steps
 
+### 0. Install and Preparing Server
+
+```bash
+sudo apt update
+sudo apt upgrade
+
+```
 
 ### 1. Install docker 
 
 ```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh ./get-docker.sh --dry-run
-
-Now your will have docker installed in your debian server. 
+sudo sh get-docker.sh
 
 ```
+Now your will have docker installed in your debian server. 
 
 ### 2. Clone this Repository
 
