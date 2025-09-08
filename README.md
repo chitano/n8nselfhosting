@@ -1,6 +1,6 @@
 # 🚀 n8n Installation on Ubuntu (Docker)
 
-This repository provides step-by-step instructions and configuration files to install **[n8n](https://n8n.io/)** on a Debian Linux server using Docker.  
+This repository provides step-by-step instructions and configuration files to install **[n8n](https://n8n.io/)** on a Ubuntu Linux server using Docker.  
 It is designed for anyone who wants to quickly set up **n8n** for workflow automation with minimal effort.
 
 ---
@@ -18,12 +18,19 @@ Before starting, make sure you have:
 
 ## ⚙️ Installation Steps
 
+### 0. Install and Prepering Server
+
+```bash
+sudo apt update
+sudo apt upgrade
+
+```
 
 ### 1. Install docker 
 
 ```bash
 curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh ./get-docker.sh --dry-run
+sudo sh get-docker.sh
 
 ```
 
@@ -52,7 +59,7 @@ mkdir local-files
 
 ### 6. Pull images and run server.
 ```bash
-docker compose pull
-docker compose up -d
+sudo docker compose pull
+sudo docker compose up -d
 
 
