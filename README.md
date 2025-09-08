@@ -18,7 +18,7 @@ Before starting, make sure you have:
 
 ## ⚙️ Installation Steps
 
-### 0. Install and Prepering Server
+### 0. Install and Preparing Server
 
 ```bash
 sudo apt update
